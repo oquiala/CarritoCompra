@@ -1,8 +1,10 @@
 # CarritoCompra
 Web Carrito de Compra / .Net Framework MVC / SQL Server / Stored Procedure
+-----------------------------------------
 -- DataBase Scripts
 CREATE DATABASE Carrito
 GO
+-----------------------------------------
 -- Tables
 CREATE TABLE [Categoria](
 	[IdCategoria] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
@@ -11,6 +13,7 @@ CREATE TABLE [Categoria](
 	[Fecha] [datetime] DEFAULT GETDATE() NOT NULL
 	)
 GO
+-----------------------------------------
 CREATE TABLE [Marca](
 	[IdMarca] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[Descripcion] [nvarchar](max) NULL,
@@ -18,6 +21,7 @@ CREATE TABLE [Marca](
 	[Fecha] [datetime] DEFAULT GETDATE() NOT NULL
 	)
 GO
+-----------------------------------------
 CREATE TABLE [Producto](
 	[IdProducto] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[Nombre] [varchar](500) NOT NULL,
@@ -32,6 +36,7 @@ CREATE TABLE [Producto](
 	[Fecha] [datetime] DEFAULT GETDATE() NOT NULL
 	)
 GO
+-----------------------------------------
 CREATE TABLE [Usuario](
 	[IdUsuario] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[Usuario] [varchar](100) NOT NULL,
@@ -44,6 +49,7 @@ CREATE TABLE [Usuario](
 	[Fecha] [datetime] DEFAULT GETDATE() NOT NULL
 	)
 GO
+-----------------------------------------
 CREATE TABLE [Carrito](
 	[IdCarrito] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[IdUsuario] [int] REFERENCES [Usuario] ([IdUsuario]) NOT NULL,
@@ -51,6 +57,7 @@ CREATE TABLE [Carrito](
 	[Cantidad] [int] NULL
 	)
 GO
+-----------------------------------------
 CREATE TABLE [Venta](
 	[IdVenta] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[IdUsuario] [int] REFERENCES [Usuario] ([IdUsuario]) NOT NULL,
@@ -64,6 +71,7 @@ CREATE TABLE [Venta](
 	[Fecha] [datetime] DEFAULT GETDATE() NOT NULL
 	)
 GO
+-----------------------------------------
 CREATE TABLE [DetalleVenta](
 	[IdDetalleVenta] [int] IDENTITY(1,1) PRIMARY KEY NOT NULL,
 	[IdVenta] [int] REFERENCES [Venta] ([IdVenta]) NOT NULL,
@@ -72,6 +80,7 @@ CREATE TABLE [DetalleVenta](
 	[Total] [decimal](10,2) NULL	
 	)
 GO
+-----------------------------------------
 -- Stored Procedure
 CREATE PROCEDURE sp_RegistrarUsuario
 ( 
@@ -99,8 +108,8 @@ END
 -----------------------------------------
 CREATE PROCEDURE sp_EditarUsuario
 ( 
-	@IdUsuario int,
-	@Usuario varchar(100),
+    @IdUsuario int,
+    @Usuario varchar(100),
     @Nombre varchar(100),	
     @Apellidos varchar(100),	
     @Correo varchar(100),	  	  
@@ -410,6 +419,7 @@ IdProducto int NULL,
 Cantidad int NULL,
 Total decimal(18,2) NULL
 )
+-----------------------------------------
 CREATE PROCEDURE sp_RegistrarVenta
 ( 
 	@IdUsuario int,
@@ -445,3 +455,4 @@ BEGIN
 		ROLLBACK TRANSACTION Registro
 	END CATCH
 END
+-----------------------------------------
