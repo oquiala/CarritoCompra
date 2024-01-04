@@ -1,0 +1,49 @@
+﻿
+<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+    <div class="sb-sidenav-menu">
+        <div class="nav">
+
+            <div class="sb-sidenav-menu-heading">Principal</div>
+
+            <a class="nav-link" href="@Url.Action("Index","Home")">
+                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div> Dashboard
+            </a>
+            <a class="nav-link" href="@Url.Action("Usuario","Usuario")">
+                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div> Usuarios
+            </a>
+            <a class="nav-link" href="@Url.Action("Ventas","Ventas")">
+                <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div> Tienda
+            </a>
+
+            <div class="sb-sidenav-menu-heading">Guaradar</div>
+
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                <div class="sb-nav-link-icon"><i class="fas fa-heart"></i></div> Capas
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="@Url.Action("Ventas","Ventas")">
+                        <div class="sb-nav-link-icon"><i class="fas fa-star"></i></div> Ventas
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Index","Home")">
+                        <div class="sb-nav-link-icon"><i class="fas fa-snowflake"></i></div> Menu 2
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sb-sidenav-menu-heading">Mantenimientos</div>
+
+            <a class="nav-link" href="@Url.Action("Categoria","Categoria")">
+                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>Categorías
+            </a>
+            <a class="nav-link" href="@Url.Action("Marca","Marca")">
+                <div class="sb-nav-link-icon"><i class="fas fa-bookmark"></i></div>Marcas
+            </a>
+            <a class="nav-link" href="@Url.Action("Producto","Producto")">
+                <div class="sb-nav-link-icon"><i class="fas fa-boxes"></i></div>Productos
+            </a>
+
+        </div>
+    </div>
+</nav>

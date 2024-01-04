@@ -1,0 +1,97 @@
+﻿@model CapaEntidad.Producto
+@{
+    ViewBag.Title = "DetalleProducto";
+    Layout = "~/Views/Shared/_LayoutProductos.cshtml";
+}
+
+<section class="py-2">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="data:image/@Html.DisplayTextFor(m => m.Extension);base64,@Html.DisplayTextFor(m => m.Base64)" alt="..." /></div>
+            <div class="col-md-6">
+                <div class="small mb-1">@Html.DisplayTextFor(m => m.oMarca.Descripcion)</div>
+                <h1 class="display-5 fw-bolder">@Html.DisplayTextFor(m => m.Nombre)</h1>
+                <div class="fs-5 mb-5">
+                    <!--<span class="text-decoration-line-through">$45.00</span>-->
+                    <span>@Html.DisplayTextFor(m => m.Precio) USD</span>
+                </div>
+                <p class="lead">@Html.DisplayTextFor(m => m.Descripcion)</p>                
+                <div class="d-flex">
+                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+
+                    <button class="btn btn-info flex-shrink-0 agregarcarrito" type="button" data-idproducto="@Html.DisplayTextFor(m => m.IdProducto)">
+                        <i class="fas fa-cart-plus me-1"></i> Agregar al Carrito
+                    </button>
+                </div>
+
+                <div class="d-flex mt-4">
+                    <a class="btn btn-dark flex-shrink-0" type="button" href="@Url.Action("Ventas","Ventas")">
+                        <i class="fas fa-arrow-left me-1"></i> Volver
+                    </a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script>
+
+        $(document).on("click", "button.agregarcarrito", function () {
+
+            jQuery.ajax({
+                url: '@Url.Action("AgregarCarrito", "Ventas")',
+                type: "POST",
+                data: JSON.stringify({ idProducto: $(this).data("idproducto") }),
+                dataType:"json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.respuesta) {
+                        CantidadCarrito()
+
+                        swal({
+                            title: "Listo!",
+                            text: "El producto ha sido agregado al carrito",
+                            type: "success",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-primary",
+                            confirmButtonText: "Ver Carrito",
+                            closeOnConfirm: false,
+                            cancelButtonClass: "btn-danger",
+                            cancelButtonText: "Cerrar",
+                        }, function () {
+                                window.location.href = '@Url.Action("Carrito", "Ventas")'
+                        });
+                    } else {
+
+                        swal({
+                            title: "",
+                            text: data.mensaje,
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-primary",
+                            confirmButtonText: "Ver Carrito",
+                            closeOnConfirm: false,
+                            cancelButtonClass: "btn-danger",
+                            cancelButtonText: "Cerrar",
+                        }, function () {
+                                window.location.href = '@Url.Action("Carrito", "Ventas")'
+                        });
+
+
+                    }
+
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+
+
+        })
+
+    </script>
+}

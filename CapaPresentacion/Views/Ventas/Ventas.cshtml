@@ -1,0 +1,276 @@
+﻿
+@{
+    ViewBag.Title = "Ventas";
+    Layout = "~/Views/Shared/_LayoutProductos.cshtml";
+}
+
+<header class="bg-darkheader">
+    <div class="container-fluid my-5">
+        <div class="text-center text-white-90">
+            <h1 class="display-4 fw-bolder">Compra con estilo</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Encuentra los mejores productos que se adapten a tus gustos y necesidades</p>
+        </div>
+    </div>
+</header>
+<!-- Section-->
+<section>
+    <div class="container-fluid px-5 my-5">
+
+        <div class="row">
+            <div class="col-sm-3">
+
+                <div class="row mb-3">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header bg-info"><i class="fas fa-table"></i> Categorías</div>
+                            <div id="contenedorCategorias" class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header bg-info"><i class="fas fa-bookmark"></i> Marcas</div>
+                            <div id="contenedorMarca" class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-12">
+                        <div class="d-grid gap-2">
+                            <button id="btnFiltro" class="btn btn-outline-dark btn-block" type="button">
+                                <i class="fas fa-filter"></i> Aplicar Filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-9">
+                <div id="contenedorProd" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-start">
+
+
+                    <!--<div class="col mb-5">
+                            <div class="card h-100"> Sale badge
+                                <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <h5 class="fw-bolder">Special Item</h5>
+                                        <div class="d-flex justify-content-center small text-warning mb-2">
+                                            <div class="bi-star-fill"> <i class="fas fa-star"></i> </div>
+                                            <div class="bi-star-fill"> <i class="fas fa-star"></i> </div>
+                                            <div class="bi-star-fill"> <i class="fas fa-star"></i> </div>
+                                            <div class="bi-star-fill"> <i class="fas fa-star"></i> </div>
+                                            <div class="bi-star-fill"> <i class="fas fa-star"></i> </div>
+                                        </div>
+                                        <span class="text-muted text-decoration-line-through">$20.00</span> $18.00
+                                    </div>
+                                </div>
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
+                                </div>
+                            </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            mostrarCategorias()
+            mostrarProductos(0, 0)
+        })
+
+        function mostrarCategorias() {
+            jQuery.ajax({
+                url: '@Url.Action("ListaCategoria", "Ventas")',
+                type: "GET",
+                dataType:"json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#contenedorCategorias").LoadingOverlay("hide");
+
+                    $("<div>").addClass("form-check").append(
+                        $("<input>").addClass("form-check-input").attr({ "type": "radio", "name": "categoria", "value": "0", "id": "cx", "checked": "checked" }),
+                        $("<label>").addClass("form-check-label").text("Todos").attr({ "for": "cx" })
+                    ).appendTo("#contenedorCategorias")
+
+                    $.each(data.data, function (i, element) {
+
+                        $("<div>").addClass("form-check").append(
+                            $("<input>").addClass("form-check-input").attr({ "type": "radio", "name": "categoria", "value": element.IdCategoria, "id": "c" + i }),
+                            $("<label>").addClass("form-check-label").text(element.Descripcion).attr({ "for": "c" + i })
+                        ).appendTo("#contenedorCategorias")
+
+                    })
+
+                    mostrarMarcas()
+                },
+                error: function (error) {
+                    console.log(error)
+                },
+                beforeSend: function () {
+                    $("#contenedorCategorias").LoadingOverlay("show")
+                }
+            });
+        }
+
+
+        function mostrarMarcas() {
+            var _idCategoria = $("input[name=categoria]:checked").val()
+            jQuery.ajax({
+                url: '@Url.Action("MarcasPorCategoria", "Ventas")',
+                type: "POST",
+                data: JSON.stringify({ idCategoria: _idCategoria }),
+                dataType:"json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#contenedorMarca").html("")
+                    $("#contenedorMarca").LoadingOverlay("hide");
+
+                    $("<div>").addClass("form-check").append(
+                        $("<input>").addClass("form-check-input").attr({ "type": "radio", "name": "marca", "value": "0", "id": "mx", "checked": "checked" }),
+                        $("<label>").addClass("form-check-label").text("Todos").attr({ "for": "mx" })
+                    ).appendTo("#contenedorMarca")
+
+                    $.each(data.data, function (i, element) {
+
+                        $("<div>").addClass("form-check").append(
+                            $("<input>").addClass("form-check-input").attr({ "type": "radio", "name": "marca", "value": element.IdMarca, "id": "m" + i }),
+                            $("<label>").addClass("form-check-label").text(element.Descripcion).attr({ "for": "m" + i })
+                        ).appendTo("#contenedorMarca")
+
+                    })
+                },
+                error: function (error) {
+                    console.log(error)
+                },
+                beforeSend: function () {
+                    $("#contenedorMarca").LoadingOverlay("show")
+                }
+            });
+        }
+
+
+        $(document).on("change", "input[name= categoria]", function () {
+            mostrarMarcas()
+        })
+
+
+        function mostrarProductos(_idCategoria , _idMarca) {
+
+            jQuery.ajax({
+                url: '@Url.Action("ProductosPorFiltro", "Ventas")',
+                type: "POST",
+                data: JSON.stringify({ idCategoria: _idCategoria, idMarca: _idMarca }),
+                dataType:"json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("#contenedorProd").html("")
+                    $("#contenedorProd").LoadingOverlay("hide");
+
+                    $.each(data.data, function (i, element) {
+
+                        $("<div>").addClass("col mb-5").append(
+                            $("<div>").addClass("card h-100").append(
+                                $("<div>").addClass("card-body p-4").append(
+                                    $("<img>").addClass("card-img-top").attr({ "src": "data:image/" + element.Extension + ";base64," + element.Base64 }),
+                                    $("<div>").addClass("text-center").append(
+                                        $("<h5>").addClass("fw-bolder mt-3").text(element.Nombre), "$ " + element.Precio.toFixed(2) + " USD"
+                                    )
+                                ),
+                                $("<div>").addClass("card-footer p-4 border-top-0 bg-transparent").append(
+                                    $("<div>").addClass("d-grid gap-2").append(
+                                        $("<button>").addClass("btn btn-info agregarcarrito").data("idProducto", element.IdProducto).append($("<i>").addClass("fas fa-cart-plus"), " Agregar al Carrito"),
+                                        $("<a>").addClass("btn btn-dark mt-2").attr({ "href": "@Url.Action("DetalleProducto", "Ventas")" + "?idProducto=" + element.IdProducto }).append($("<i>").addClass("fas fa-eye"), " Ver Detalles")
+                                    )
+                                )
+                            )
+                        ).appendTo("#contenedorProd")
+                    })
+                },
+                error: function (error) {
+                    console.log(error)
+                },
+                beforeSend: function () {
+                    $("#contenedorProd").LoadingOverlay("show")
+                }
+            });
+        }
+
+        $("#btnFiltro").click(function () {
+
+            var _idCategoria = $("input[name=categoria]:checked").val()
+            var _idMarca = $("input[name=marca]:checked").val()
+
+            mostrarProductos(_idCategoria, _idMarca)
+        })
+
+        $(document).on("click", "button.agregarcarrito", function () {
+
+            jQuery.ajax({
+                url: '@Url.Action("AgregarCarrito", "Ventas")',
+                type: "POST",
+                data: JSON.stringify({ idProducto: $(this).data("idProducto") }),
+                dataType:"json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.respuesta) {
+                        CantidadCarrito()
+
+                        swal({
+                            title: "Listo!",
+                            text: "El producto ha sido agregado al carrito",
+                            type: "success",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-primary",
+                            confirmButtonText: "Ver Carrito",
+                            closeOnConfirm: false,
+                            cancelButtonClass: "btn-danger",
+                            cancelButtonText: "Cerrar",
+                        }, function () {
+                                window.location.href = '@Url.Action("Carrito", "Ventas")'
+                        });
+                    } else {
+
+                        swal({
+                            title: "",
+                            text: data.mensaje,
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-primary",
+                            confirmButtonText: "Ver Carrito",
+                            closeOnConfirm: false,
+                            cancelButtonClass: "btn-danger",
+                            cancelButtonText: "Cerrar",
+                        }, function () {
+                                window.location.href = '@Url.Action("Carrito", "Ventas")'
+                        });
+                       
+
+                    }
+
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+
+
+        })
+
+
+    </script>
+}

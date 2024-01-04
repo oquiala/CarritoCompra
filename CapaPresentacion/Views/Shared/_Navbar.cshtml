@@ -1,0 +1,25 @@
+﻿
+
+<nav class="sb-topnav navbar navbar-expand-lg navbar-light bg-info">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand ps-3" href="@Url.Action("Index","Home")">
+            <img class="img-logo rounded-3" src="~/Content/img/logo.svg"> Mi Tienda
+        </a>
+
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+
+        <ul class="navbar-nav ms-auto me-0 me-md-3 my-2 my-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img class="img-profile rounded-circle" src="~/Content/img/undraw_profile.svg"> Usuario
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#!"><i class="fas fa-envelope fa-fw text-primary"></i>Correo</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="#!"><i class="fas fa-sign-out-alt fa-fw text-primary"></i>Salir</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,6 @@
+D:\reposExamples\cursoWebMVC\WebCarrito\CapaEntidad\bin\Debug\CapaEntidad.dll
+D:\reposExamples\cursoWebMVC\WebCarrito\CapaEntidad\bin\Debug\CapaEntidad.pdb
+D:\reposExamples\cursoWebMVC\WebCarrito\CapaEntidad\obj\Debug\CapaEntidad.csproj.AssemblyReference.cache
+D:\reposExamples\cursoWebMVC\WebCarrito\CapaEntidad\obj\Debug\CapaEntidad.csproj.CoreCompileInputs.cache
+D:\reposExamples\cursoWebMVC\WebCarrito\CapaEntidad\obj\Debug\CapaEntidad.dll
+D:\reposExamples\cursoWebMVC\WebCarrito\CapaEntidad\obj\Debug\CapaEntidad.pdb
